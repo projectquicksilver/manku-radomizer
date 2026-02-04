@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Night Randomizer 🔥</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated hearts background */
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #c2185b;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #8e24aa;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .pickup-line {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            font-style: italic;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.3);
+        }
+
+        .date-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .date-display.spinning {
+            animation: pulse 0.1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .date-line {
+            margin: 5px 0;
+        }
+
+        .spin-button {
+            background: linear-gradient(135deg, #f5576c 0%, #c2185b 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(194, 24, 91, 0.4);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(194, 24, 91, 0.5);
+        }
+
+        .spin-button:active {
+            transform: translateY(-1px);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .date-display {
+                font-size: 1.5em;
+                padding: 30px;
+            }
+            
+            .spin-button {
+                padding: 15px 40px;
+                font-size: 1.2em;
+            }
+        }
+
+        .flame {
+            position: absolute;
+            top: -30px;
+            font-size: 40px;
+            animation: flicker 2s infinite;
+        }
+
+        .flame.left {
+            left: 20px;
+        }
+
+        .flame.right {
+            right: 20px;
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="flame left">🔥</div>
+        <div class="flame right">🔥</div>
+        
+        <h1>💋 Date Night Randomizer 💋</h1>
+        <p class="subtitle">Find Your Perfect Night of Passion</p>
+        
+        <div class="pickup-line" id="pickupLine">
+            Click the button to discover your steamy date night! 🌹
+        </div>
+        
+        <div class="date-display" id="dateDisplay">
+            <div class="date-line">Ready to spin?</div>
+            <div class="date-line emoji">💕 🍾 💕</div>
+        </div>
+        
+        <button class="spin-button" id="spinButton" onclick="spinDate()">
+            <span class="emoji">🎲</span> SPIN FOR ROMANCE <span class="emoji">🎲</span>
+        </button>
+    </div>
+
+    <script>
+        // Pickup lines
+        const pickupLines = [
+            "Are you a magician? Because whenever I look at you, everyone else disappears... 😘",
+            "Do you have a map? I keep getting lost in your eyes... 💫",
+            "Are you made of copper and tellurium? Because you're Cu-Te! 🔥",
+            "Is your name Google? Because you have everything I've been searching for... 💖",
+            "If you were a vegetable, you'd be a cute-cumber! 🥒💕",
+            "Do you believe in love at first sight, or should I walk by again? 😏",
+            "Are you a parking ticket? Because you've got FINE written all over you! 🚗💋",
+            "Can I follow you home? Cause my parents always told me to follow my dreams... ✨",
+            "Are you French? Because Eiffel for you! 🗼❤️",
+            "Is it hot in here, or is it just our chemistry? 🌡️🔥",
+            "Do you have a Band-Aid? I just scraped my knee falling for you... 💕",
+            "Are you a time traveler? Because I see you in my future! ⏰💫",
+            "If kisses were snowflakes, I'd send you a blizzard! ❄️💋",
+            "You must be tired, because you've been running through my mind all day! 🏃‍♀️💭",
+            "Are you a camera? Because every time I look at you, I smile! 📸😊"
+        ];
+
+        // Generate weekday dates for February and March 2026
+        function generateWeekdayDates() {
+            const dates = [];
+            const year = 2026;
+            
+            // February 2026
+            for (let day = 1; day <= 28; day++) {
+                const date = new Date(year, 1, day); // Month is 0-indexed
+                const dayOfWeek = date.getDay();
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) or Saturday (6)
+                    dates.push({
+                        day: day,
+                        month: 'February',
+                        dayName: getDayName(dayOfWeek)
+                    });
+                }
+            }
+            
+            // March 2026
+            for (let day = 1; day <= 31; day++) {
+                const date = new Date(year, 2, day); // Month is 0-indexed
+                const dayOfWeek = date.getDay();
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) or Saturday (6)
+                    dates.push({
+                        day: day,
+                        month: 'March',
+                        dayName: getDayName(dayOfWeek)
+                    });
+                }
+            }
+            
+            return dates;
+        }
+
+        function getDayName(dayIndex) {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            return days[dayIndex];
+        }
+
+        const availableDates = generateWeekdayDates();
+
+        function spinDate() {
+            const button = document.getElementById('spinButton');
+            const display = document.getElementById('dateDisplay');
+            const pickupLineElement = document.getElementById('pickupLine');
+            
+            // Disable button during spin
+            button.disabled = true;
+            display.classList.add('spinning');
+            
+            // Random pickup line
+            const randomPickupLine = pickupLines[Math.floor(Math.random() * pickupLines.length)];
+            pickupLineElement.textContent = randomPickupLine;
+            
+            // Simulate spinning animation
+            let spinCount = 0;
+            const spinInterval = setInterval(() => {
+                const randomDate = availableDates[Math.floor(Math.random() * availableDates.length)];
+                display.innerHTML = `
+                    <div class="date-line">${randomDate.dayName}</div>
+                    <div class="date-line">${randomDate.month} ${randomDate.day}</div>
+                    <div class="date-line emoji">💖 🌹 💖</div>
+                `;
+                spinCount++;
+                
+                if (spinCount >= 20) {
+                    clearInterval(spinInterval);
+                    
+                    // Final result
+                    const finalDate = availableDates[Math.floor(Math.random() * availableDates.length)];
+                    display.innerHTML = `
+                        <div class="date-line">${finalDate.dayName}</div>
+                        <div class="date-line">${finalDate.month} ${finalDate.day}, 2026</div>
+                        <div class="date-line emoji">🔥 💋 🔥</div>
+                    `;
+                    
+                    display.classList.remove('spinning');
+                    button.disabled = false;
+                }
+            }, 100);
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = ['💕', '💖', '💗', '💘', '❤️'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 20000);
+        }
+
+        // Generate hearts periodically
+        setInterval(createHeart, 2000);
+        
+        // Initial hearts
+        for (let i = 0; i < 5; i++) {
+            createHeart();
+        }
+    </script>
+</body>
+</html>
